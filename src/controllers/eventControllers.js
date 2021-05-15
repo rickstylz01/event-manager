@@ -2,7 +2,7 @@ const Event = require('../models/event');
 
 // creates a new event
 exports.createNewEvent = function (req, res) {
-	Book.create({
+	Event.create({
 		...req.body
 	}, (err, newEvent) => {
 		if (err) {
@@ -24,33 +24,37 @@ exports.fetchEvents = (req, res) => {
 		if (err) {
 			return res.status(500).json({message: err});
 		} else {
-			return res.status(200).json({books});
+			return res.status(200).json({events});
 		}
 	})
 }
 
 // fetches single event
 exports.fetchSingleEvent = (req, res) => {
-	if (err) {
-		return res.status(500).json({message: err});
-	} else if (!event) {
-		return res.status(404).json({message: "event not found"});
-	} else {
-		return res.status(200).json({event});
-	}
+	Event.findOne({_id: req.params.id}, (err, event) => {
+		if (err) {
+			return res.status(500).json({message: err});
+		} else if (!event) {
+			return res.status(404).json({message: "event not found"});
+		} else {
+			return res.status(200).json({event});
+		}
+	})
 }
 
 // update single event 
 exports.updateSingleEvent = (req, res) => {
-	Book.findByIdAndUpdate(req.params.id, {
-		category: req.body.category
+	Event.findByIdAndUpdate(req.params.id, {
+		title: req.body.title,
+		category: req.body.category,
+		cost: req.body.cost
 	}, (err, event) => {
 		if (err) {
 			return res.status(500).json({message: err});
 		} else if (!event) {
 			return res.status(404).json({message: "event not found"});
 		} else {
-			event.save((err, savedBook) => {
+			event.save((err, savedEvent) => {
 				if (err) {
 					return res.status(400).json({message: err});
 				} else {
@@ -58,12 +62,12 @@ exports.updateSingleEvent = (req, res) => {
 				}
 			});
 		}
-	});
+	})
 }
 
 // delete event
 exports.deleteSingleEvent = (req, res) => {
-	Book.findByIdAndDelete(req.params.id, (err, event) => {
+	Event.findByIdAndDelete(req.params.id, (err, event) => {
 		if (err) {
 			return res.status(500).json({message: err});
 		} else if (!event) {

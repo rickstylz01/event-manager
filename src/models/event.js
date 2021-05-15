@@ -23,7 +23,7 @@ const eventSchema = new mongoose.Schema({
 	category: {
 		type: String,
 		required: true,
-		enum: ["business", "casual", "party", "general"],
+		enum: ["business", "casual", "party", "general", "concert"],
 		default: "general"
 	}
 });
