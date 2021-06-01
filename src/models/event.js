@@ -1,15 +1,6 @@
 // Require Mongoose
 const mongoose = require('mongoose');
 
-/*
-Define schema
-
-REQUIRED Categories!!
-title - string
-cost (num greater than 0)
-category (busines, casual, party, general)
-*/
-
 const eventSchema = new mongoose.Schema({
 	title: {
 		type: String,

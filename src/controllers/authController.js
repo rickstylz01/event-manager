@@ -15,8 +15,9 @@ exports.registerNewUser = (req, res) => {
 			return res.status(400).json({message: "a user with this email already exists"})
 		}
 		User.create({
+			email: req.body.email,
 			userName: req.body.userName,
-			email: req.body.email
+			role: req.body.role
 		}, (err, newUser) => {
 			if (err) {
 				return res.status(500).json({err});
@@ -40,7 +41,8 @@ exports.registerNewUser = (req, res) => {
 						jwt.sign({
 							id: newUser._id,
 							userName: newUser.userName,
-							email: newUser.email
+							email: newUser.email,
+							role: newUser.role
 						}, secret, {expiresIn: expiry}, (err, token) => {
 							if (err) {
 								return res.status(500).json({err});
@@ -76,7 +78,8 @@ exports.loginUser = (req, res) => {
 		jwt.sign({
 			id: foundUser._id,
 			username: foundUser.username,
-			email: foundUser.email
+			email: foundUser.email,
+			role: foundUser.role
 		}, secret, {
 			expiresIn: expiry
 		}, (err, token) => {

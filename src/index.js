@@ -7,6 +7,7 @@ const authRoutes = require('./routes/authRoutes');
 
 // SETUP EXPRESS
 app.use(express.json());
+
 // SETUP DB
 dbsetup();
 
@@ -14,5 +15,7 @@ dbsetup();
 app.use(bookRoutes);
 app.use('/auth', authRoutes);
 
+// SEEDERS
+const {seedAdmin} = require('./seeders/admin');
 
 app.listen(port, () => console.log(`app listening on port ${port}`));
