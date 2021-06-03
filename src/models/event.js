@@ -7,8 +7,7 @@ const eventSchema = new mongoose.Schema({
 		required: true
 	},
 	image: {
-		data: Buffer,
-		contentType: String
+		type: String
 	},
 	cost: {
 		type: Number,

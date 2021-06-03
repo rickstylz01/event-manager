@@ -1,9 +1,25 @@
 const Event = require('../models/event');
+const superagent = require('superagent');
 
 // creates a new event
 exports.createNewEvent = function (req, res) {
+	let reqCategory = req.body.category;
+	let image;
+	// send get request to url to fetch image that matches the category
+	superagent.get('https://imagegen.herokuapp.com/')
+	.query({ category: reqCategory })
+	.end((err, response) => {
+		if (err) {
+			return res.status(500).json({message: err});
+		} else {
+			image = response.body.image;
+		}
+	})
 	Event.create({
-		...req.body
+		title: req.body.title,
+		image: image,
+		cost: req.body.cost,
+		category: reqCategory
 	}, (err, newEvent) => {
 		if (err) {
 			return res.status(500).json({message: err});
