@@ -38,20 +38,14 @@ exports.registerNewUser = (req, res) => {
 							return res.status(500).json({err});
 						}
 						// create jwt for user
-						jwt.sign({
-							id: newUser._id,
-							userName: newUser.userName,
-							email: newUser.email,
-							role: newUser.role
-						}, secret, {expiresIn: expiry}, (err, token) => {
-							if (err) {
-								return res.status(500).json({err});
-							}
-							// send token to user
-							return res.status(200).json({
-								message: "user registration successful",
-								token
-							})
+						let token = createToken(newUser);
+						if (!token) {
+							return res.status(500).json({message: "sorry we could not authenticate you. please login"});
+						}
+						// send token to user
+						return res.status(200).json({
+							message: "user registration successful",
+							token
 						})
 					})
 				})
@@ -75,22 +69,14 @@ exports.loginUser = (req, res) => {
 			return res.status(401).json({message: "incorrect password"});
 		}
 		// create a token
-		jwt.sign({
-			id: foundUser._id,
-			username: foundUser.username,
-			email: foundUser.email,
-			role: foundUser.role
-		}, secret, {
-			expiresIn: expiry
-		}, (err, token) => {
-			if (err) {
-				return res.status(500).json({err});
-			}
-			// send token to user
-			return res.status(200).json({
-				message: "user logged in",
-				token
-			})
+		let token = createToken(foundUser);
+		if (!token) {
+			return res.status(500).json({message: "sorry we could not authenticate you. please login"});
+		}
+		// send token to user
+		return res.status(200).json({
+			message: "user logged in",
+			token
 		})
 	})
 }

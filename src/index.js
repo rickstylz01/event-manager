@@ -1,9 +1,10 @@
 const express = require('express');
 const app = express();
-const port = 4000;
 const dbsetup = require('./database/setup');
-const bookRoutes = require('./routes/eventRoutes');
+const eventRoutes = require('./routes/eventRoutes');
 const authRoutes = require('./routes/authRoutes');
+const port = process.env.PORT;
+require('dotenv').config();
 
 // SETUP EXPRESS
 app.use(express.json());
@@ -12,7 +13,7 @@ app.use(express.json());
 dbsetup();
 
 // REQUIRE ROUTES
-app.use(bookRoutes);
+app.use(eventRoutes);
 app.use('/auth', authRoutes);
 
 // SEEDERS
