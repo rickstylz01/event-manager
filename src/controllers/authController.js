@@ -2,6 +2,7 @@ const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const secret = "verySecureSecret";
+const { createToken } = require('../services/jwtService');
 const expiry = 3600;
 
 exports.registerNewUser = (req, res) => {
